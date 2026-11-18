@@ -19,16 +19,7 @@ jobs:
         with:
           gradle-version: '9.5.1'
       - name: Build
-        working-directory: cheatmenu
-        run: |
-          set +e
-          gradle build > ../build.log 2>&1
-          code=$?
-          if [ $code -ne 0 ]; then
-            msg=$(grep -vE '^\s+at ' ../build.log | grep -E 'error|What went wrong|Could not|Caused by|^> |not found|cannot find|does not exist|Unsupported|incompatible' | head -c 1800 | tr '\n' '|')
-            echo "::error title=BuildError::$msg"
-          fi
-          exit $code
+        run: bash cheatmenu/ci.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
